@@ -5,7 +5,7 @@ const createBrand = async (req, res, next) => {
     const brand = req.body;
     const result = await model.createBrand(brand);
 
-    if (result.errors.length > 0) {
+    if (result.hasOwnProperty('errors')) {
         const message = result.errors[0].message
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({message});
     }
