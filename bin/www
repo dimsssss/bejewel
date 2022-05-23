@@ -7,6 +7,10 @@
 const app = require('../app');
 const debug = require('debug')('bejewel:server');
 const http = require('http');
+const db = require('../models/index');
+
+
+app.set('db', db);
 
 /**
  * Get port from environment and store in Express.
