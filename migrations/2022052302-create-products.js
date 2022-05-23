@@ -7,7 +7,7 @@ module.exports = {
                 autoIncrement: true,
             },
             brandId: {
-                type: Sequelize.DataTypes.INTEGER,
+                type: Sequelize.DataTypes.STRING,
                 references: {
                     model: 'brands',
                     key: 'id',
