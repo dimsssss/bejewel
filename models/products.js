@@ -1,58 +1,58 @@
 module.exports = (sequelize, DataTypes) => {
     const products = sequelize.define('products', {
         id: {
-            type: Sequelize.DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
         brandId: {
-            type: Sequelize.DataTypes.INTEGER,
+            type: DataTypes.STRING,
             references: {
                 model: 'brands',
                 key: 'id',
             }
         },
         name: {
-            type: Sequelize.DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         shipInfo: {
-            type: Sequelize.DataTypes.ENUM,
+            type: DataTypes.ENUM,
             values: ['TODAY', 'NORMAL'],
             defaultValue: 'TODAY'
         },
         price: {
-            type: Sequelize.DataTypes.INTEGER,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         discountPercent: {
-            type: Sequelize.DataTypes.INTEGER
+            type: DataTypes.INTEGER
         },
         discountAmount: {
-            type: Sequelize.DataTypes.INTEGER
+            type: DataTypes.INTEGER
         },
         color: {
-            type: Sequelize.DataTypes.ENUM,
+            type: DataTypes.ENUM,
             values: ['WHITE', 'BLACK'],
             defaultValue: 'WHITE'
         },
         baseMetal: {
-            type: Sequelize.DataTypes.ENUM,
+            type: DataTypes.ENUM,
             values: ['GOLD', 'SILVER'],
             defaultValue: 'GOLD'
         },
         shape: {
-            type: Sequelize.DataTypes.ENUM,
+            type: DataTypes.ENUM,
             values: ['RING', 'NECKLACE'],
             defaultValue: 'RING'
         },
         gemstone: {
-            type: Sequelize.DataTypes.ENUM,
+            type: DataTypes.ENUM,
             values: ['DIAMOND', 'PERL', 'NATURAL'],
             defaultValue: 'NATURAL'
         },
         like: {
-            type: Sequelize.DataTypes.INTEGER
+            type: DataTypes.INTEGER
         },
         createdAt: {
             type: "TIMESTAMP",
