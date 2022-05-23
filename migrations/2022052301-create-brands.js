@@ -2,12 +2,8 @@ module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('brands', {
             id: {
-                type: Sequelize.DataTypes.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            name: {
                 type: Sequelize.DataTypes.STRING,
+                primaryKey: true
             },
             createdAt: {
                 type: "TIMESTAMP",
