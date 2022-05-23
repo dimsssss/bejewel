@@ -2,7 +2,7 @@
     <h1 align="center">
         bejewel
     </h1>
-    <p align="center">Bejewel 백엔드 개발 과제입니다<a href="https://github.com/dimsssss/bejewel"></a>.</p>
+    <p align="center">상품에 대한 CRUD API 입니다<a href="https://github.com/dimsssss/bejewel"></a>.</p>
 </p>
 
 <p align="center">
@@ -34,7 +34,9 @@ docker run --name=bejewel -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=bejewel 
 
 ```shell
 git clone https://github.com/dimsssss/bejewel
+
 cd bejewel
+
 npm install
 ```
 
@@ -42,14 +44,13 @@ npm install
 ```shell
 # 초기화
 npx sequelize-cli init
+
 # migration
 npx sequelize-cli db:migrate
-# migration 되돌리기
-npx sequelize-cli db:migrate:undo:all
 ```
 
 
-## 🧾 사용법
+## 🧾 실행
 ```shell
 npm run dev
 ```
