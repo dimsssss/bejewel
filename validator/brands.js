@@ -1,7 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const {StatusCodes} = require("http-status-codes");
 
-const validateCreateBrandBody = [
+const hasValidBrandId = [
     body('id').isAscii()
 ]
 
@@ -15,6 +15,6 @@ const checkValidationResult = (req, res, next) => {
 }
 
 module.exports = {
-    validateCreateBrandBody,
+    hasValidBrandId,
     checkValidationResult
 }
