@@ -6,6 +6,14 @@ module.exports = {
                 primaryKey: true,
                 autoIncrement: true
             },
+            productId: {
+                type: Sequelize.DataTypes.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'products',
+                    key: 'id',
+                }
+            },
             mainCategoryId: {
                 type: Sequelize.DataTypes.INTEGER,
                 allowNull: false,

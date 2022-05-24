@@ -5,6 +5,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true
         },
+        productId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'products',
+                key: 'id',
+            }
+        },
         mainCategoryId: {
             type: DataTypes.INTEGER,
             allowNull: false,
