@@ -8,13 +8,14 @@ module.exports = {
             },
             brandId: {
                 type: Sequelize.DataTypes.STRING,
+                allowNull: false,
                 references: {
                     model: 'brands',
                     key: 'id',
                 }
             },
             name: {
-                type: Sequelize.DataTypes.INTEGER,
+                type: Sequelize.DataTypes.STRING,
                 allowNull: false
             },
             shipInfo: {
