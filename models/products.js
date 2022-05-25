@@ -63,7 +63,10 @@ module.exports = (sequelize, DataTypes) => {
             type: "TIMESTAMP",
             allowNull: false,
         }
+
     }, {
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
         freezeTableName: true
     });
 
