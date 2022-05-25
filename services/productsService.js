@@ -2,7 +2,7 @@ const filterProductData = (data) => {
     const filteredData = Object.entries(data).filter((element) => {
         const [key, value] = element;
         return key !== 'mainCategoryId' && key !== 'subCategoryId'
-     })
+    })
     return Object.fromEntries(filteredData);
 }
 
@@ -34,6 +34,17 @@ const createNewProuct = async (db, data) => {
     return result;
 }
 
+const findProductForCategory = async (db, data) => {
+    const productModel = db.products;
+    const {mainCategoryId, subCategoryId} = data;
+
+    const products = await productModel.findAllProductsUsingCategories(db, mainCategoryId, subCategoryId);
+    return products.map((product) => {
+        return product.get({plain: true})
+    })
+}
+
 module.exports = {
-    createNewProuct
+    createNewProuct,
+    findProductForCategory
 }
