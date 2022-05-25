@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-    const mainCategory = sequelize.define('main_category', {
+    const mainCategory = sequelize.define('mainCategory', {
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         name: {
             type: DataTypes.STRING,
@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
     }, {
-        freezeTableName: true
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
+        tableName: 'main_category'
     });
 
     return mainCategory;
