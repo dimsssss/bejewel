@@ -1,14 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-    const subCategory = sequelize.define('sub_category', {
+    const subCategory = sequelize.define('subCategory', {
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         mainCategoryId: {
             type: DataTypes.INTEGER,
             references: {
-                model: 'main_category',
+                model: 'mainCategory',
                 key: 'id',
             }
         },
@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
     }, {
-        freezeTableName: true
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
+        tableName: 'sub_category'
     });
 
     return subCategory;
