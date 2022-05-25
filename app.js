@@ -4,6 +4,8 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const brandsRouter = require('./routes/brands');
+const categoryRouter = require('./routes/category');
+const productsRouter = require('./routes/products');
 const app = express();
 
 app.use(logger('dev'));
@@ -13,6 +15,8 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/brands', brandsRouter);
+app.use('/category', categoryRouter);
+app.use('/products', productsRouter);
 
 // error handler
 app.use(function(err, req, res, next) {
