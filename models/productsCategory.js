@@ -42,5 +42,10 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'products_category'
     });
 
+    productsCategory.associate = (db) => {
+        const products = db.products;
+        productsCategory.belongsTo(products, {as: 'p', foreignKey: 'productId'});
+    }
+
     return productsCategory;
 }
