@@ -75,6 +75,39 @@ module.exports = (sequelize, DataTypes) => {
         products.hasOne(productsCategory, {as: 'pc', sourceKey: 'id', foreignKey: 'productId'})
     }
 
+    products.addNewProduct = async (db, data) => {
+        const filterProductData = (data) => {
+            const filteredData = Object.entries(data).filter((element) => {
+                const [key, value] = element;
+                return key !== 'mainCategoryId' && key !== 'subCategoryId'
+            })
+            return Object.fromEntries(filteredData);
+        }
+
+
+        const setCategoryData = (data, productId) => {
+            return {
+                productId,
+                mainCategoryId: data.mainCategoryId,
+                subCategoryId: data.subCategoryId
+            }
+        }
+
+        return await db.sequelize.transaction(async (t) => {
+            const productCategoryModel = db.productsCategory;
+
+            const productData = filterProductData(data);
+            const product = await products.create(productData, {transaction: t});
+
+            const categoryData = setCategoryData(data, product.get('id'));
+            await productCategoryModel.create(categoryData, {transaction: t});
+
+            return product.get({plain: true});
+        }).catch((err) => {
+            return err;
+        })
+    }
+
     products.findAllProductsUsingCategories = async (db, mainCategoryId, subCategoryId) => {
         return await products.findAll({
             attributes: ['id', 'brandId', 'name', 'shipInfo', 'price', 'discountPercent', 'discountAmount', 'color',
