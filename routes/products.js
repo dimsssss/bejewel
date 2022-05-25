@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { hasValidBody } = require('../validator/products');
+const { hasValidBody, hasValidCategoryIds } = require('../validator/products');
 const { checkValidationResult } = require('../validator/validationResultWrapper');
-const { createProductAndProductCategory } = require('../controllers/productsController');
+const { createProductAndProductCategory, getProductsForCategory } = require('../controllers/productsController');
 
 router.post('/', hasValidBody, checkValidationResult, createProductAndProductCategory);
+router.get('/', hasValidCategoryIds, checkValidationResult, getProductsForCategory);
+
 
 module.exports = router;
