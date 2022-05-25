@@ -1,8 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-    const productCategory = sequelize.define('products_category', {
+    const productsCategory = sequelize.define('productsCategory', {
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             primaryKey: true
         },
         productId: {
@@ -17,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'main_category',
+                model: 'mainCategory',
                 key: 'id',
             }
         },
@@ -25,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'sub_category',
+                model: 'subCategory',
                 key: 'id',
             }
         },
@@ -38,8 +37,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
     }, {
-        freezeTableName: true
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
+        tableName: 'products_category'
     });
 
-    return productCategory;
+    return productsCategory;
 }
