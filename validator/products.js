@@ -15,6 +15,12 @@ const hasValidBody = [
     body('subCategoryId').isInt({min:1})
 ]
 
+const hasValidCategoryIds = [
+    body('mainCategoryId').isInt({min:1}),
+    body('subCategoryId').isInt({min:1}),
+]
+
 module.exports = {
     hasValidBody,
+    hasValidCategoryIds
 }

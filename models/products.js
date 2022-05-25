@@ -70,5 +70,31 @@ module.exports = (sequelize, DataTypes) => {
         freezeTableName: true
     });
 
+    products.associate = (db) => {
+        const productsCategory = db.productsCategory;
+        products.hasOne(productsCategory, {as: 'pc', sourceKey: 'id', foreignKey: 'productId'})
+    }
+
+    products.findAllProductsUsingCategories = async (db, mainCategoryId, subCategoryId) => {
+        return await products.findAll({
+            attributes: ['id', 'brandId', 'name', 'shipInfo', 'price', 'discountPercent', 'discountAmount', 'color',
+                'baseMetal', 'shape', 'gemstone', 'like', 'createdAt', 'updatedAt'],
+            include: {
+                as: 'pc',
+                model: db.productsCategory,
+                nested: true,
+                required: true,
+                flat: true,
+                attributes: ['mainCategoryId', 'subCategoryId'],
+                where: {
+                    mainCategoryId,
+                    subCategoryId
+                },
+            }
+        }).catch((err) => {
+            return err;
+        })
+    }
+
     return products;
 }
