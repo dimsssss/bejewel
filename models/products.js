@@ -108,25 +108,38 @@ module.exports = (sequelize, DataTypes) => {
         })
     }
 
-    products.findAllProductsUsingCategories = async (db, mainCategoryId, subCategoryId) => {
-        return await products.findAll({
-            attributes: ['id', 'brandId', 'name', 'shipInfo', 'price', 'discountPercent', 'discountAmount', 'color',
-                'baseMetal', 'shape', 'gemstone', 'like', 'createdAt', 'updatedAt'],
-            include: {
-                as: 'pc',
-                model: db.productsCategory,
-                nested: true,
-                required: true,
-                flat: true,
-                attributes: ['mainCategoryId', 'subCategoryId'],
-                where: {
-                    mainCategoryId,
-                    subCategoryId
+    products.findAllProductsUsingCategories = async (db, data) => {
+        const {getPageCount, getPageStartLocation} = require('../utils/page');
+        const {mainCategoryId, subCategoryId, pageIndex, offset} = data;
+        const result = await db.sequelize.transaction(async (t) => {
+            const selectOption = {
+                include: {
+                    as: 'pc',
+                    model: db.productsCategory,
+                    nested: true,
+                    required: true,
+                    flat: true,
+                    attributes: ['mainCategoryId', 'subCategoryId'],
+                    where: {
+                        mainCategoryId,
+                        subCategoryId
+                    },
                 },
+                transaction: t
             }
-        }).catch((err) => {
-            return err;
+
+            const totalCount = await products.count(selectOption);
+            const attributes = ['id', 'brandId', 'name', 'shipInfo', 'price', 'discountPercent', 'discountAmount', 'color',
+                'baseMetal', 'shape', 'gemstone', 'like', 'createdAt', 'updatedAt'];
+            const pageCount = getPageCount(totalCount, Number(offset));
+            const start = getPageStartLocation(Number(pageIndex), Number(offset));
+            const productList = await products.findAll({...selectOption, attributes, offset: start, limit: start + Number(offset)}).catch((err) => {
+                return err;
+            })
+            return [productList, pageCount];
         })
+        return result;
+
     }
 
     return products;
