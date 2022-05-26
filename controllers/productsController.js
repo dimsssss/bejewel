@@ -36,8 +36,25 @@ const getProductDetail = async (req, res, next) => {
     return res.status(200).send(result);
 }
 
+const updateProductDetail = async (req, res, next) => {
+    if (Object.keys(req.body).length <= 1) {
+        return res.status(400).send({message: 'good'})
+    }
+
+    const db = req.app.get('db');
+    const [productInfomation, id] = productsService.splitProductIdAndProeductInformation(req.body);
+    const result = await db.products.updateProductInformation(productInfomation, id);
+
+    if (result.hasOwnProperty('errors')) {
+        return res.status(500).send({errors: result.errors[0]});
+    }
+
+    return res.status(200).send(result);
+}
+
 module.exports = {
     createProductAndProductCategory,
     getProductsForCategory,
-    getProductDetail
+    getProductDetail,
+    updateProductDetail
 }
