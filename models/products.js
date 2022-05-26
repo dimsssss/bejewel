@@ -129,8 +129,7 @@ module.exports = (sequelize, DataTypes) => {
             }
 
             const totalCount = await products.count(selectOption);
-            const attributes = ['id', 'brandId', 'name', 'shipInfo', 'price', 'discountPercent', 'discountAmount', 'color',
-                'baseMetal', 'shape', 'gemstone', 'like', 'createdAt', 'updatedAt'];
+            const attributes = ['id', 'brandId', 'name', 'shipInfo', 'price', 'discountPercent', 'like', 'createdAt', 'updatedAt'];
             const pageCount = getPageCount(totalCount, Number(offset));
             const start = getPageStartLocation(Number(pageIndex), Number(offset));
             const productList = await products.findAll({...selectOption, attributes, offset: start, limit: start + Number(offset)}).catch((err) => {
