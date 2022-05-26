@@ -1,5 +1,3 @@
-
-
 const createNewProuct = async (db, data) => {
     const result = await db.products.addNewProduct(db, data);
     return result;
@@ -7,12 +5,15 @@ const createNewProuct = async (db, data) => {
 
 const findProductForCategory = async (db, data) => {
     const productModel = db.products;
-    const {mainCategoryId, subCategoryId} = data;
-
-    const products = await productModel.findAllProductsUsingCategories(db, mainCategoryId, subCategoryId);
-    return products.map((product) => {
-        return product.get({plain: true})
-    })
+    const [productList, pageCount] = await productModel.findAllProductsUsingCategories(db, data);
+    const {pageIndex, offset} = data;
+    const products = productList.map((product) => { return product.get({plain: true}) })
+    return {
+        products,
+        pageCount,
+        pageIndex,
+        offset
+    }
 }
 
 module.exports = {

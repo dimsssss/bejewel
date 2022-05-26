@@ -18,6 +18,8 @@ const hasValidBody = [
 const hasValidCategoryIds = [
     query('mainCategoryId').isInt({min:1}),
     query('subCategoryId').isInt({min:1}),
+    query('pageIndex').isInt({min:1}),
+    query('offset').isInt({min:1}),
 ]
 
 module.exports = {
