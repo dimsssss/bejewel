@@ -16,7 +16,16 @@ const findProductForCategory = async (db, data) => {
     }
 }
 
+const splitProductIdAndProeductInformation = (data) => {
+    const productInformation = Object.entries(data).filter((element) => {
+        const [key, value] = element;
+        return key !== 'id';
+    })
+    return [Object.fromEntries(productInformation), Number(data.id)];
+}
+
 module.exports = {
     createNewProuct,
-    findProductForCategory
+    findProductForCategory,
+    splitProductIdAndProeductInformation
 }

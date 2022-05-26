@@ -145,5 +145,12 @@ module.exports = (sequelize, DataTypes) => {
         return await products.findByPk(productId);
     }
 
+    products.updateProductInformation = async (data, productId) => {
+        const result = await products.update(data, {where: {id: productId}}).catch((err) => {
+            return err;
+        })
+        return result;
+    }
+
     return products;
 }
