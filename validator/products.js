@@ -1,4 +1,4 @@
-const {body, query} = require('express-validator');
+const {body, query, param} = require('express-validator');
 
 const hasValidBody = [
     body('brandId').isAscii(),
@@ -22,7 +22,12 @@ const hasValidCategoryIds = [
     query('offset').isInt({min:1}),
 ]
 
+const hasValidProductId = [
+    param('productId').isInt({min:1})
+]
+
 module.exports = {
     hasValidBody,
-    hasValidCategoryIds
+    hasValidCategoryIds,
+    hasValidProductId
 }
