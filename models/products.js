@@ -142,5 +142,9 @@ module.exports = (sequelize, DataTypes) => {
 
     }
 
+    products.getProductDetailByProductId = async (productId) => {
+        return await products.findByPk(productId);
+    }
+
     return products;
 }
