@@ -152,5 +152,14 @@ module.exports = (sequelize, DataTypes) => {
         return result;
     }
 
+    products.deleteProductByProductId = async (productsCategory, productId) => {
+        return await sequelize.transaction(async (t) => {
+            await productsCategory.destroy({where: {productId}, transaction: t}).catch((err) => {return err});
+            return await products.destroy({where: {id:productId}, transaction: t}).catch((err) => {return err});
+        }).catch((err) => {
+            return err;
+        })
+    }
+
     return products;
 }
