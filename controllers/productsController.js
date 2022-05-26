@@ -52,9 +52,23 @@ const updateProductDetail = async (req, res, next) => {
     return res.status(200).send(result);
 }
 
+const deleteProduct = async (req, res, next) => {
+    const products = req.app.get('db').products;
+    const productsCategory = req.app.get('db').productsCategory;
+    const productId = Number(req.params['productId']);
+    const result = products.deleteProductByProductId(productsCategory, productId);
+
+    if (result.hasOwnProperty('errors')) {
+        return res.status(500).send({errors: result.errors[0]});
+    }
+
+    return res.status(200).send(result);
+}
+
 module.exports = {
     createProductAndProductCategory,
     getProductsForCategory,
     getProductDetail,
-    updateProductDetail
+    updateProductDetail,
+    deleteProduct
 }
