@@ -1,0 +1,97 @@
+{
+  "createProduct": {
+    "inputData": {
+      "brandId": "bejewel",
+      "name": "목걸이",
+      "shipInfo": "TODAY",
+      "price": 10000,
+      "discountPercent": 2,
+      "discountAmount": 1000,
+      "color": "WHITE",
+      "baseMetal": "GOLD",
+      "shape": "RING",
+      "gemstone": "DIAMOND",
+      "mainCategoryId": 1,
+      "subCategoryId": 1
+    }
+  },
+  "findByCategory": {
+    "inputData": [
+      {
+        "brandId": "bejewel",
+        "name": "목걸이",
+        "shipInfo": "TODAY",
+        "price": 10000,
+        "discountPercent": 2,
+        "like": null,
+        "pc": {
+          "mainCategoryId": 1,
+          "subCategoryId": 1
+        }
+      },
+      {
+        "brandId": "bejewel",
+        "name": "목걸이",
+        "shipInfo": "NORMAL",
+        "price": 10000,
+        "discountPercent": 2,
+        "like": null,
+        "pc": {
+          "mainCategoryId": 1,
+          "subCategoryId": 1
+        }
+      },
+      {
+        "brandId": "bejewel",
+        "name": "목걸이",
+        "shipInfo": "TODAY",
+        "price": 10000,
+        "discountPercent": 2,
+        "like": null,
+        "pc": {
+          "mainCategoryId": 1,
+          "subCategoryId": 1
+        }
+      }
+    ]
+  },
+  "updateProduct": {
+    "inputData": {
+      "brandId": "bejewel",
+      "name": "목걸이",
+      "shipInfo": "TODAY",
+      "price": 10000,
+      "discountPercent": 2,
+      "discountAmount": 1000,
+      "color": "WHITE",
+      "baseMetal": "GOLD",
+      "shape": "RING",
+      "gemstone": "DIAMOND"
+    },
+    "resultData": {
+      "name": "반지",
+      "shipInfo": "NORMAL",
+      "price": 20000,
+      "discountPercent": 1,
+      "discountAmount": 2000,
+      "color": "WHITE",
+      "baseMetal": "GOLD",
+      "shape": "RING",
+      "gemstone": "DIAMOND"
+    }
+  },
+  "getProductDetail": {
+    "inputData": {
+      "brandId": "bejewel",
+      "name": "목걸이",
+      "shipInfo": "TODAY",
+      "price": 10000,
+      "discountPercent": 2,
+      "discountAmount": 1000,
+      "color": "WHITE",
+      "baseMetal": "GOLD",
+      "shape": "RING",
+      "gemstone": "DIAMOND"
+    }
+  }
+}
