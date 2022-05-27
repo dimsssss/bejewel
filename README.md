@@ -42,9 +42,6 @@ npm install
 
 ### 3. 데이터베이스 마이그레이션
 ```shell
-# 초기화
-npx sequelize-cli init
-
 # migration
 npx sequelize-cli db:migrate
 ```
@@ -54,3 +51,7 @@ npx sequelize-cli db:migrate
 ```shell
 npm run dev
 ```
+
+## ⚠ 주의 사항
+- docker를 실행하고 구동되기까지 **15 ~ 20초 정도 대기하고 migration 명령어를 실행**해야 합니다.
+- **brands, category를 먼저 등록**하고 상품을 등록해야 합니다.
