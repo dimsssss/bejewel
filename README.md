@@ -46,6 +46,8 @@ npm install
 npx sequelize-cli db:migrate
 ```
 
+## 🖼 ERD
+![ERD](./images/bejewelErd.png)
 
 ## 🧾 실행
 ```shell
