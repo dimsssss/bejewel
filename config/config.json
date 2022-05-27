@@ -6,5 +6,13 @@
     "host": "127.0.0.1",
     "dialect": "mysql",
     "port": "6603"
+  },
+  "test": {
+    "username": "root",
+    "password": "1234",
+    "database": "bejewel",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port": "6603"
   }
 }
