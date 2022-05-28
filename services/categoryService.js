@@ -10,7 +10,7 @@ const registerNewCategories = async (db, data) => {
         const mainCategoryId = mainCategory.dataValues.id;
         const subCategory = await subCategoryModel.create({mainCategoryId, name: subCategoryName}, {transaction: t});
 
-        return [mainCategory.dataValues, subCategory.dataValues]
+        return {mainCategory: mainCategory.dataValues, subCategory: subCategory.dataValues}
     }).catch((err) => {
         return err;
     });

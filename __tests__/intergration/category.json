@@ -1,0 +1,8 @@
+{
+  "createNewCategory": {
+    "inputData": {
+      "mainCategoryName": "Test",
+      "subCategoryName": "success"
+    }
+  }
+}
