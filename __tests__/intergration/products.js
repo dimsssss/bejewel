@@ -19,7 +19,7 @@ describe('상품 통합테스트', () => {
             await db.mainCategory.create({name: 'test'}, {transaction: t});
             await db.subCategory.create({name: 'success'}, {transaction: t});
             // 상품 아이디와 카테고리아이디를 매칭
-            const productCategoryResultSet = await db.productsCategory.bulkCreate(productCategorySample, {transaction: t});
+            await db.productsCategory.bulkCreate(productCategorySample, {transaction: t});
         })
 
 
@@ -32,16 +32,16 @@ describe('상품 통합테스트', () => {
         });
         // then
         const sampleData = require('./data.json').findByCategory.inputData;
-        result.products.forEach((product, index) => {
-            expect(product.id).toBeGreaterThan(0);
+        result.productList.forEach((product, index) => {
+            expect(product.productId).toBeGreaterThan(0);
+            expect(product.mainCategoryId).toEqual(sampleData[index].mainCategoryId);
+            expect(product.subCategoryId).toEqual(sampleData[index].subCategoryId);
             expect(product.brandId).toEqual(sampleData[index].brandId);
             expect(product.name).toEqual(sampleData[index].name);
             expect(product.shipInfo).toEqual(sampleData[index].shipInfo);
             expect(product.price).toEqual(sampleData[index].price);
             expect(product.discountPercent).toEqual(sampleData[index].discountPercent);
             expect(product.like).toEqual(sampleData[index].like);
-            expect(product.pc.mainCategoryId).toEqual(sampleData[index].pc.mainCategoryId);
-            expect(product.pc.subCategoryId).toEqual(sampleData[index].pc.subCategoryId);
         })
 
 

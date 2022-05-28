@@ -7,9 +7,8 @@ const findProductForCategory = async (db, data) => {
     const productModel = db.products;
     const [productList, pageCount] = await productModel.findAllProductsUsingCategories(db, data);
     const {pageIndex, offset} = data;
-    const products = productList.map((product) => { return product.get({plain: true}) })
     return {
-        products,
+        productList,
         pageCount,
         pageIndex,
         offset
