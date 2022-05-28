@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     brands.createBrand = async (brand) => {
         const result = await brands.create(brand).catch((err) => {
             return err;
-        })
-        return result;
+        });
+        return result.get({plain:true});
     }
 
     return brands;
