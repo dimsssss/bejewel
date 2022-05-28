@@ -1,4 +1,48 @@
 module.exports = (sequelize, DataTypes) => {
+    const getFindAllProductsUsingCategoriesOption = (data) => {
+        const {mainCategoryId, subCategoryId, offset} = data;
+        const selectOption = {
+            include: {
+                as: 'p',
+                model: products,
+                attributes: [],
+                required: true,
+                raw: true
+            },
+        }
+        const attributes = [
+            'productId',
+            'mainCategoryId',
+            'subCategoryId',
+            [sequelize.col('p.brandId'), 'brandId'],
+            [sequelize.col('p.name'), 'name'],
+            [sequelize.col('p.shipInfo'),'shipInfo'],
+            [sequelize.col('p.price'), 'price'],
+            [sequelize.col('p.discountPercent'), 'discountPercent'],
+            [sequelize.col('p.like'), 'like'],
+            [sequelize.col('p.createdAt'), 'createdAt'],
+            [sequelize.col('p.updatedAt'), 'updatedAt']
+        ]
+        const where = {
+            mainCategoryId,
+            subCategoryId
+        }
+        return (start) => {
+            if (start === undefined) {
+                return selectOption
+            }
+            return {
+                ...selectOption,
+                raw: true,
+                nest: false,
+                attributes,
+                where,
+                offset: start,
+                limit: start + Number(offset)
+            }
+        }
+    }
+
     const products = sequelize.define('products', {
         id: {
             type: DataTypes.INTEGER,
@@ -84,7 +128,6 @@ module.exports = (sequelize, DataTypes) => {
             return Object.fromEntries(filteredData);
         }
 
-
         const setCategoryData = (data, productId) => {
             return {
                 productId,
@@ -109,57 +152,21 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     products.findAllProductsUsingCategories = async (db, data) => {
+        const getOption = getFindAllProductsUsingCategoriesOption(data);
         const {getPageCount, getPageStartLocation} = require('../utils/page');
-        const {mainCategoryId, subCategoryId, pageIndex, offset} = data;
+        const {pageIndex, offset} = data;
+
         const result = await db.sequelize.transaction(async (t) => {
-            const selectOption = {
-                include: {
-                    as: 'p',
-                    model: products,
-                    attributes: [],
-                    required: true,
-                    raw: true
-                },
-                transaction: t
-            }
-
-            const attributes =  [
-                'productId',
-                'mainCategoryId',
-                'subCategoryId',
-                [sequelize.col('p.brandId'), 'brandId'],
-                [sequelize.col('p.name'), 'name'],
-                [sequelize.col('p.shipInfo'),'shipInfo'],
-                [sequelize.col('p.price'), 'price'],
-                [sequelize.col('p.discountPercent'), 'discountPercent'],
-                [sequelize.col('p.like'), 'like'],
-                [sequelize.col('p.createdAt'), 'createdAt'],
-                [sequelize.col('p.updatedAt'), 'updatedAt']
-            ]
-            const totalCount = await db.productsCategory.count(selectOption);
-            const where = {
-                mainCategoryId,
-                subCategoryId
-            }
-
+            const totalCount = await db.productsCategory.count({...getOption(), transaction: t});
             const pageCount = getPageCount(totalCount, Number(offset));
             const start = getPageStartLocation(Number(pageIndex), Number(offset));
-            const productList = await db.productsCategory.findAll({
-                ...selectOption,
-                raw: true,
-                nest: false,
-                attributes,
-                where,
-                offset: start,
-                limit: start + Number(offset)
-            })
+            const productList = await db.productsCategory.findAll({...getOption(start)})
             .catch((err) => {
                 return err;
             })
             return [productList, pageCount];
         })
         return result;
-
     }
 
     products.getProductDetailByProductId = async (productId) => {
