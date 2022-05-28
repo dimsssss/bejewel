@@ -1,4 +1,4 @@
-describe('products 통합테스트', () => {
+describe('products e2e 테스트', () => {
     const request = require('supertest');
     const app = require('../../app');
     const db = require('../../models');
