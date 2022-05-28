@@ -49,6 +49,9 @@ npx sequelize-cli db:migrate
 ## 🖼 ERD
 ![ERD](./images/bejewelErd.png)
 
+## 🌐 API Document
+https://documenter.getpostman.com/view/6055091/Uz5CKcoW
+
 ## 🧾 실행
 ```shell
 npm run dev
