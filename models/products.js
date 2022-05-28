@@ -114,25 +114,46 @@ module.exports = (sequelize, DataTypes) => {
         const result = await db.sequelize.transaction(async (t) => {
             const selectOption = {
                 include: {
-                    as: 'pc',
-                    model: db.productsCategory,
-                    nested: true,
+                    as: 'p',
+                    model: products,
+                    attributes: [],
                     required: true,
-                    flat: true,
-                    attributes: ['mainCategoryId', 'subCategoryId'],
-                    where: {
-                        mainCategoryId,
-                        subCategoryId
-                    },
+                    raw: true
                 },
                 transaction: t
             }
 
-            const totalCount = await products.count(selectOption);
-            const attributes = ['id', 'brandId', 'name', 'shipInfo', 'price', 'discountPercent', 'like', 'createdAt', 'updatedAt'];
+            const attributes =  [
+                'productId',
+                'mainCategoryId',
+                'subCategoryId',
+                [sequelize.col('p.brandId'), 'brandId'],
+                [sequelize.col('p.name'), 'name'],
+                [sequelize.col('p.shipInfo'),'shipInfo'],
+                [sequelize.col('p.price'), 'price'],
+                [sequelize.col('p.discountPercent'), 'discountPercent'],
+                [sequelize.col('p.like'), 'like'],
+                [sequelize.col('p.createdAt'), 'createdAt'],
+                [sequelize.col('p.updatedAt'), 'updatedAt']
+            ]
+            const totalCount = await db.productsCategory.count(selectOption);
+            const where = {
+                mainCategoryId,
+                subCategoryId
+            }
+
             const pageCount = getPageCount(totalCount, Number(offset));
             const start = getPageStartLocation(Number(pageIndex), Number(offset));
-            const productList = await products.findAll({...selectOption, attributes, offset: start, limit: start + Number(offset)}).catch((err) => {
+            const productList = await db.productsCategory.findAll({
+                ...selectOption,
+                raw: true,
+                nest: false,
+                attributes,
+                where,
+                offset: start,
+                limit: start + Number(offset)
+            })
+            .catch((err) => {
                 return err;
             })
             return [productList, pageCount];
@@ -154,8 +175,12 @@ module.exports = (sequelize, DataTypes) => {
 
     products.deleteProductByProductId = async (productsCategory, productId) => {
         return await sequelize.transaction(async (t) => {
-            await productsCategory.destroy({where: {productId}, transaction: t}).catch((err) => {return err});
-            return await products.destroy({where: {id:productId}, transaction: t}).catch((err) => {return err});
+            await productsCategory.destroy({where: {productId}, transaction: t}).catch((err) => {
+                return err
+            });
+            return await products.destroy({where: {id: productId}, transaction: t}).catch((err) => {
+                return err
+            });
         }).catch((err) => {
             return err;
         })
