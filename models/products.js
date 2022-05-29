@@ -144,7 +144,6 @@ module.exports = (sequelize, DataTypes) => {
 
             const categoryData = setCategoryData(data, product.get('id'));
             await productCategoryModel.create(categoryData, {transaction: t});
-
             return product.get({plain: true});
         }).catch((err) => {
             return err;

@@ -1,8 +1,8 @@
 describe('상품 통합테스트', () => {
     const db = require('../../models/index');
-    const {createNewProuct, findProductForCategory, } = require('../../services/productsService');
+    const {createNewProuct, findProductForCategory} = require('../../services/productsService');
 
-    it('상품과 상품_카테고리가 저장되어야 한다', async function () {
+    test('상품과 상품_카테고리가 저장되어야 한다', async function () {
         const inputData = require('./products.json').createProduct.inputData;
         const result = await createNewProuct(db, inputData);
 
@@ -34,7 +34,26 @@ describe('상품 통합테스트', () => {
         expect(productsCategoryResult.subCategoryId).toEqual(inputData.subCategoryId);
     });
 
-    it('특정 상품을 삭제한다', async function () {
+    test('상품 정보가 수정되어야 한다', async function () {
+        const sampleData = require('./products.json').updateProduct;
+        const productId = await db.sequelize.transaction(async (t) => {
+            const createResultSet = await db.products.create(sampleData.inputData, {transaction: t});
+            const result = createResultSet.get({plain:true});
+            await db.products.update(sampleData.resultData, {where: {id:result.id}, transaction: t});
+            return result.id;
+        })
+
+        const resultSet = await db.products.findOne({where: {id: productId}});
+
+        expect(sampleData.resultData.name).toEqual(resultSet.dataValues.name);
+        expect(sampleData.resultData.shipInfo).toEqual(resultSet.dataValues.shipInfo);
+        expect(sampleData.resultData.price).toEqual(resultSet.dataValues.price);
+        expect(sampleData.resultData.discountPercent).toEqual(resultSet.dataValues.discountPercent);
+        expect(sampleData.resultData.discountAmount).toEqual(resultSet.dataValues.discountAmount);
+
+    });
+
+    test('특정 상품을 삭제한다', async function () {
         // given
         const productId = 1;
         // when
@@ -47,11 +66,13 @@ describe('상품 통합테스트', () => {
         expect(product).toEqual([]);
     });
 
-    it('카테고리 아이디에 맞는 상품들을 가져온다', async function () {
+    test('카테고리 아이디에 맞는 상품들을 가져온다', async function () {
         // given
         await db.sequelize.transaction(async (t) => {
             const sampleData = require('./products.json').findByCategory.inputData;
+            await db.products.destroy({where: {}});
             const productsResultSet = await db.products.bulkCreate(sampleData, {transaction: t});
+            console.log('length', productsResultSet.length)
             const productCategorySample = productsResultSet.map((product) => {
                 const productId = product.get({plain: true}).id;
                 return {
@@ -93,26 +114,7 @@ describe('상품 통합테스트', () => {
         expect(result.pageCount).toEqual(1);
     });
 
-    it('상품 정보가 수정되어야 한다', async function () {
-        const sampleData = require('./products.json').updateProduct;
-        const productId = await db.sequelize.transaction(async (t) => {
-            const createResultSet = await db.products.create(sampleData.inputData, {transaction: t});
-            const result = createResultSet.get({plain:true});
-            await db.products.update(sampleData.resultData, {where: {id:result.id}, transaction: t});
-            return result.id;
-        })
-
-        const resultSet = await db.products.findOne({where: {id: productId}});
-
-        expect(sampleData.resultData.name).toEqual(resultSet.dataValues.name);
-        expect(sampleData.resultData.shipInfo).toEqual(resultSet.dataValues.shipInfo);
-        expect(sampleData.resultData.price).toEqual(resultSet.dataValues.price);
-        expect(sampleData.resultData.discountPercent).toEqual(resultSet.dataValues.discountPercent);
-        expect(sampleData.resultData.discountAmount).toEqual(resultSet.dataValues.discountAmount);
-
-    });
-
-    it('상품 전체(상세) 정보를 가져온다', async function () {
+    test('상품 전체(상세) 정보를 가져온다', async function () {
         const inputData = require('./products.json').getProductDetail.inputData;
         const product = await db.products.create(inputData);
 

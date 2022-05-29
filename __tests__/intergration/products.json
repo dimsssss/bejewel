@@ -18,35 +18,35 @@
   "findByCategory": {
     "inputData": [
       {
-        "productId": 2,
         "mainCategoryId": 1,
         "subCategoryId": 1,
         "brandId": "bejewel",
         "name": "목걸이",
         "shipInfo": "TODAY",
         "price": 10000,
+        "discountAmount": 1000,
         "discountPercent": 2,
         "like": null
       },
       {
-        "productId": 2,
         "mainCategoryId": 1,
         "subCategoryId": 1,
         "brandId": "bejewel",
         "name": "목걸이",
         "shipInfo": "TODAY",
         "price": 10000,
+        "discountAmount": 2000,
         "discountPercent": 2,
         "like": null
       },
       {
-        "productId": 2,
         "mainCategoryId": 1,
         "subCategoryId": 1,
         "brandId": "bejewel",
         "name": "목걸이",
         "shipInfo": "TODAY",
         "price": 10000,
+        "discountAmount": 3000,
         "discountPercent": 2,
         "like": null
       }
